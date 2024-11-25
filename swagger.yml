@@ -272,7 +272,7 @@ paths:
         '403':
           description: Unauthorized - Invalid or missing token
 
-  /api/destinations/{id}/delete:
+  /api/destinations/{id}:
     delete:
       summary: Delete a destination by ID
       description: Allows an admin to delete a destination.
