@@ -82,13 +82,16 @@ Users Service Tests
 Run the tests for the Users Service:
 
 bash
+
 pytest --cov=app --maxfail=1 --disable-warnings -v users_service/test_app.py
 Destinations Service Tests
 Run the tests for the Destinations Service:
 
 bash
+
 pytest --cov=app test_destinations_service.py --cov-report=term
-API Documentation
+
+### API Documentation
 Users Service API
 POST /api/users/register: Register a new user.
 
