@@ -78,13 +78,13 @@ The Destinations Service will run on http://127.0.0.1:5001.
 
 
 ###  Running Tests
-## Users Service Tests
+#### Users Service Tests
 Run the tests for the Users Service:
 bash
 
 pytest --cov=app --maxfail=1 --disable-warnings -v users_service/test_app.py
 
-## Destinations Service Tests
+#### Destinations Service Tests
 Run the tests for the Destinations Service:
 bash
 
