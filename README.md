@@ -56,36 +56,37 @@ To run each service, use Flask’s development server.
 
 Users Service:
 Navigate to the users_service directory:
+
 bash
-Copy code
 cd users_service
 Start the Flask development server:
+
 bash
-Copy code
 flask run
 The Users Service will run on http://127.0.0.1:5000.
+
+
 Destinations Service:
 Navigate to the destinations_service directory:
 bash
-Copy code
 cd destinations_service
 Start the Flask development server:
+
 bash
-Copy code
 flask run
 The Destinations Service will run on http://127.0.0.1:5001.
-Running Tests
+
+
+##Running Tests
 Users Service Tests
 Run the tests for the Users Service:
 
 bash
-Copy code
 pytest --cov=app --maxfail=1 --disable-warnings -v users_service/test_app.py
 Destinations Service Tests
 Run the tests for the Destinations Service:
 
 bash
-Copy code
 pytest --cov=app test_destinations_service.py --cov-report=term
 API Documentation
 Users Service API
