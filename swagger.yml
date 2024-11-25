@@ -1,0 +1,320 @@
+openapi: 3.0.0
+info:
+  title: User and Destination Services API
+  description: This API consists of two services: Users Service and Destinations Service. The Users Service handles user registration, login, and profile management. The Destinations Service provides CRUD operations for destinations with role-based access control.
+  version: 1.0.0
+
+servers:
+  - url: http://127.0.0.1:5000
+    description: Users Service API
+  - url: http://127.0.0.1:5001
+    description: Destinations Service API
+
+paths:
+  /api/users/register:
+    post:
+      summary: Register a new user
+      description: Register a new user with their name, email, password, and role.
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The user's full name.
+                email:
+                  type: string
+                  format: email
+                  description: The user's email address.
+                password:
+                  type: string
+                  description: The user's password.
+                role:
+                  type: string
+                  enum: [User, Admin]
+                  description: The role of the user.
+              required:
+                - name
+                - email
+                - password
+                - role
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                    example: "Registration successful as User"
+                  User:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: "john@example.com"
+        '400':
+          description: Bad request - Missing required fields or invalid email format
+        '409':
+          description: Conflict - Email already registered
+
+  /api/users/login:
+    post:
+      summary: Log in a user
+      description: Authenticate a user and return an access token.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: The user's email address.
+                password:
+                  type: string
+                  description: The user's password.
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    description: The JWT access token for the user.
+        '401':
+          description: Unauthorized - Invalid credentials
+
+  /api/users/profile:
+    post:
+      summary: Retrieve the user's profile
+      description: Fetch the profile of the currently logged-in user using the provided access token.
+      operationId: getUserProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  description: The JWT access token of the user.
+              required:
+                - accessToken
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                    example: "Profile retrieved successfully"
+                  User:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: "john@example.com"
+        '401':
+          description: Unauthorized - Invalid or expired token
+        '404':
+          description: Not found - User not found
+        '400':
+          description: Bad request - Missing access token
+
+  /api/destinations/all:
+    get:
+      summary: Get all destinations
+      description: Retrieve a list of all available destinations.
+      operationId: getAllDestinations
+      parameters:
+        - in: header
+          name: accessToken
+          required: true
+          schema:
+            type: string
+          description: The JWT access token of the user.
+      responses:
+        '200':
+          description: List of destinations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Paris"
+                    description:
+                      type: string
+                      example: "Capital of France"
+                    location:
+                      type: string
+                      example: "Europe"
+        '403':
+          description: Unauthorized - Invalid or missing token
+
+  /api/destinations/create:
+    post:
+      summary: Create a new destination
+      description: Allows an admin to create a new destination.
+      operationId: createDestination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the destination.
+                description:
+                  type: string
+                  description: A brief description of the destination.
+                location:
+                  type: string
+                  description: The location of the destination.
+              required:
+                - name
+                - description
+                - location
+      responses:
+        '201':
+          description: Destination created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 3
+                  name:
+                    type: string
+                    example: "New York"
+                  description:
+                    type: string
+                    example: "The Big Apple"
+                  location:
+                    type: string
+                    example: "North America"
+        '403':
+          description: Forbidden - Admins only
+        '400':
+          description: Bad request - Missing required fields
+
+  /api/destinations/{id}:
+    get:
+      summary: Get a destination by ID
+      description: Retrieve a specific destination using its ID.
+      operationId: getDestinationById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the destination.
+        - in: header
+          name: accessToken
+          required: true
+          schema:
+            type: string
+          description: The JWT access token of the user.
+      responses:
+        '200':
+          description: Destination found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "Paris"
+                  description:
+                    type: string
+                    example: "Capital of France"
+                  location:
+                    type: string
+                    example: "Europe"
+        '404':
+          description: Not found - Destination not found
+        '403':
+          description: Unauthorized - Invalid or missing token
+
+  /api/destinations/{id}/delete:
+    delete:
+      summary: Delete a destination by ID
+      description: Allows an admin to delete a destination.
+      operationId: deleteDestination
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the destination.
+        - in: header
+          name: accessToken
+          required: true
+          schema:
+            type: string
+          description: The JWT access token of the user.
+      responses:
+        '200':
+          description: Destination deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                    example: "Destination deleted"
+        '403':
+          description: Forbidden - Admins only
+        '404':
+          description: Not found - Destination not found
+        '403':
+          description: Unauthorized - Invalid or missing token
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
