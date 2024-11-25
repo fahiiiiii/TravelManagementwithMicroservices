@@ -54,7 +54,7 @@ Database: The services currently use in-memory databases (users_db for users and
 Running the Services
 To run each service, use Flask’s development server.
 
-###Users Service:
+### Users Service:
 Navigate to the users_service directory:
 
 bash
@@ -66,7 +66,7 @@ flask run
 The Users Service will run on http://127.0.0.1:5000.
 
 
-###Destinations Service:
+### Destinations Service:
 Navigate to the destinations_service directory:
 bash
 cd destinations_service
@@ -77,7 +77,7 @@ flask run
 The Destinations Service will run on http://127.0.0.1:5001.
 
 
-###Running Tests
+###  Running Tests
 Users Service Tests
 Run the tests for the Users Service:
 
