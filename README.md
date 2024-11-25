@@ -26,7 +26,7 @@ Both services use **Flask** as the web framework and **JWT** (JSON Web Tokens) f
 ### Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/project-name.git](https://github.com/fahiiiiii/TravelManagementwithMicroservices
+   git clone https://github.com/fahiiiiii/TravelManagementwithMicroservices/tree/main
    cd TravelManagementwithMicroservices
 Create a virtual environment:
 
