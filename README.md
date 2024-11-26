@@ -92,7 +92,7 @@ pytest --cov=app test_destinations_service.py --cov-report=term
 pytest --cov=. --cov-report=term-missing test_auth_service.py
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Authentication Service
 
