@@ -1,0 +1,6 @@
+flask
+flask-restx
+python-dotenv
+pytest
+pytest-cov
+PyJWT
