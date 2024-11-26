@@ -26,8 +26,8 @@ Both services use **Flask** as the web framework and **JWT** (JSON Web Tokens) f
 ### Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/project-name.git
-   cd project-name
+   git clone https://github.com/fahiiiiii/TravelManagementwithMicroservices/tree/main
+   cd TravelManagementwithMicroservices
 Create a virtual environment:
 
 bash
@@ -54,40 +54,43 @@ Database: The services currently use in-memory databases (users_db for users and
 Running the Services
 To run each service, use Flask’s development server.
 
-Users Service:
+### Users Service:
 Navigate to the users_service directory:
+
 bash
-Copy code
 cd users_service
 Start the Flask development server:
+
 bash
-Copy code
 flask run
 The Users Service will run on http://127.0.0.1:5000.
-Destinations Service:
+
+
+### Destinations Service:
 Navigate to the destinations_service directory:
 bash
-Copy code
 cd destinations_service
 Start the Flask development server:
+
 bash
-Copy code
 flask run
 The Destinations Service will run on http://127.0.0.1:5001.
-Running Tests
-Users Service Tests
+
+
+###  Running Tests
+#### Users Service Tests
 Run the tests for the Users Service:
 
-bash
-Copy code
+
 pytest --cov=app --maxfail=1 --disable-warnings -v users_service/test_app.py
-Destinations Service Tests
+
+#### Destinations Service Tests
 Run the tests for the Destinations Service:
 
-bash
-Copy code
+
 pytest --cov=app test_destinations_service.py --cov-report=term
-API Documentation
+
+### API Documentation
 Users Service API
 POST /api/users/register: Register a new user.
 
