@@ -8,6 +8,8 @@ servers:
   - url: http://127.0.0.1:5000
     description: Users Service API
   - url: http://127.0.0.1:5001
+    description: Authentication Service API
+  - url: http://127.0.0.1:5002
     description: Destinations Service API
 
 paths:
@@ -308,6 +310,105 @@ paths:
           description: Not found - Destination not found
         '403':
           description: Unauthorized - Invalid or missing token
+
+  /api/auth/validate:
+    post:
+      summary: Validate JWT Access Token
+      description: Comprehensive token validation endpoint that checks token structure, expiration, and role-based permissions
+      operationId: validateToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  description: JWT Access Token to validate
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              required:
+                - accessToken
+      responses:
+        '200':
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Authorized"
+                  valid:
+                    type: boolean
+                    example: true
+                  role:
+                    type: string
+                    enum: [Admin, User]
+                    example: "Admin"
+                  permissions:
+                    type: array
+                    items:
+                      type: string
+                    example: ["full_access", "modify_destinations"]
+                  access_level:
+                    type: integer
+                    example: 10
+                  token_details:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                      email:
+                        type: string
+                      issued_at:
+                        type: number
+                      token_type:
+                        type: string
+                  expiration:
+                    type: number
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No access token provided"
+                  valid:
+                    type: boolean
+                    example: false
+                  error_code:
+                    type: string
+                    example: "NO_TOKEN"
+        '401':
+          description: Token validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid token"
+                  valid:
+                    type: boolean
+                    example: false
+                  error_code:
+                    type: string
+                    enum: 
+                      - INVALID_TOKEN_STRUCTURE
+                      - EXPIRED_TOKEN
+                      - INVALID_ROLE
+                      - MISSING_ROLE
+                      - INVALID_TOKEN
+                    example: "INVALID_TOKEN"
+
+
+    
 
 components:
   securitySchemes:
