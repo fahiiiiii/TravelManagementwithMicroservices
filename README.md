@@ -16,7 +16,7 @@ A microservices-based travel management application with robust authentication a
   - Authentication Service
 - **Comprehensive Test Coverage**
 
-## 🛠 Prerequisites
+## Prerequisites
 
 - Python 3.8+
 - pip
